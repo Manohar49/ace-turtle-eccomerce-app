@@ -1,0 +1,14 @@
+<clr-modal [(clrModalOpen)]="isOpen" [clrModalSize]="'lg'" (clrModalOpenChange)="closeModal.emit(false)">
+  <div class="modal-body">
+    <app-checkout-form 
+      [fields]="checkoutFields"
+      #checkoutForm>
+    </app-checkout-form>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-outline" (click)="onCancel(checkoutForm.formGroup)">Cancel</button>
+    <button class="btn btn-primary" (click)="onSubmit(checkoutForm.formGroup)" [disabled]="checkoutForm.formGroup.invalid">
+      Confirm Order
+    </button>
+  </div>
+</clr-modal>

@@ -1,0 +1,17 @@
+<header class="main-header">
+  <div class="logo">
+    <a routerLink="/">
+      <img src="assets/images/ace-turtle.png" alt="Ace Turtle Logo" class="logo-img">
+      Ace Turtle Store
+    </a>
+  </div>
+
+  <nav class="navigation">
+    <a routerLink="/products" routerLinkActive="active-link">Products</a>
+    <a routerLink="/cart" routerLinkActive="active-link" class="cart-icon">
+      <cds-icon shape="shopping-cart" size="24"></cds-icon>
+      <span class="cart-count" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+      Cart
+    </a>
+  </nav>
+</header>

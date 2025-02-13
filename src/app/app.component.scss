@@ -1,0 +1,10 @@
+@import 'src/styles.scss';
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+.content-wrapper{
+    margin-top: 70px;
+}

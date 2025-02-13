@@ -1,0 +1,39 @@
+<div *ngIf="isLoading" class="loading-spinner">
+  <clr-spinner clrSmall="true" aria-label="Loading products..."></clr-spinner>
+   Loading products...
+</div>
+
+<clr-alert 
+  *ngIf="hasError" 
+  clrAlertType="danger" 
+  [clrAlertClosable]="false" 
+  class="clr-error-message">
+  <clr-alert-item>
+    <span class="alert-text">{{ errorMessage }}</span>
+  </clr-alert-item>
+  <button class="retry-button" (click)="retryLoading()">Retry</button>
+</clr-alert>
+
+<div class="product-grid" *ngIf="!isLoading && !hasError">
+  <div *ngFor="let product of displayedProducts; trackBy: trackByProductId" class="product-card">
+    <img [src]="product.image" [alt]="product.name" />
+    <h3>{{ product.name }}</h3>
+    <p class="price">{{ product.price | currency }}</p>
+    <div class="product-actions">
+      <input type="number" [(ngModel)]="product.quantity" min="1" class="quantity-input">
+      <button (click)="addToCart(product, product.quantity)" class="add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<div class="pagination-container" *ngIf="displayedProducts?.length && !isLoading && !hasError">
+  <button class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 1">
+    &laquo; Previous
+  </button>
+  <span class="page-info">
+    Page {{ currentPage }} of {{ totalPages }}
+  </span>
+  <button class="pagination-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    Next &raquo;
+  </button>
+</div>

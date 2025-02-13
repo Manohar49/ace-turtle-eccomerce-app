@@ -1,0 +1,45 @@
+<div class="checkout-modal">
+  <div class="checkout-form-container">
+    <h3 class="form-heading">Checkout Form</h3>
+    <form [formGroup]="formGroup">
+      <div class="form-group" *ngFor="let field of fields">
+        <label class="form-label" [for]="field.name">
+          {{ field.label }}
+          <span class="required-asterisk" *ngIf="isFieldRequired(field)">*</span>
+        </label>
+
+        <div class="input-wrapper">
+          <input 
+            *ngIf="field.type === 'input'" 
+            [type]="'text'" 
+            [formControlName]="field.name" 
+            class="clr-input"
+            [id]="field.name" 
+            [placeholder]="field.label"
+          />
+
+          <textarea 
+            *ngIf="field.type === 'textarea'" 
+            [formControlName]="field.name" 
+            class="clr-textarea" 
+            [id]="field.name" 
+            [placeholder]="field.label">
+          </textarea>
+
+          <clr-alert 
+            [clrAlertType]="'danger'" 
+            [clrAlertClosable]="false" 
+            *ngIf="formGroup.get(field.name)?.errors && formGroup.get(field.name)?.touched"
+            class="error-message"
+          >
+            <clr-alert-item>
+              <span class="alert-text">
+                {{ getErrorMessage(field.name) }}
+              </span>
+            </clr-alert-item>
+          </clr-alert>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

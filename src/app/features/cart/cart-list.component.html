@@ -1,0 +1,52 @@
+<div class="cart-container">
+  <ng-container *ngIf="(cartItems$ | async) as items">
+    <ng-container *ngIf="items.length > 0; else emptyCart">
+      <h2>Your Shopping Cart</h2>
+      <clr-datagrid>
+        <clr-dg-column>Image</clr-dg-column>
+        <clr-dg-column>Name</clr-dg-column>
+        <clr-dg-column>Price</clr-dg-column>
+        <clr-dg-column>Quantity</clr-dg-column>
+        <clr-dg-column>Total</clr-dg-column>
+        <clr-dg-column>Actions</clr-dg-column>
+
+        <clr-dg-row *ngFor="let item of items; trackBy: trackByFn">
+          <clr-dg-cell>
+            <img [src]="item.image" alt="{{ item.name }}" class="product-image" />
+          </clr-dg-cell>
+          <clr-dg-cell>{{ item.name }}</clr-dg-cell>
+          <clr-dg-cell>{{ item.price | currency }}</clr-dg-cell>
+          <clr-dg-cell>
+            <div class="quantity-controls">
+              <button (click)="decreaseQuantity(item)">-</button>
+              <span>{{ item.quantity }}</span>
+              <button (click)="increaseQuantity(item)">+</button>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell>{{ (item.price * item.quantity) | currency }}</clr-dg-cell>
+          <clr-dg-cell>
+            <button (click)="removeFromCart(item)" class="remove-btn">Remove</button>
+          </clr-dg-cell>
+        </clr-dg-row>
+      </clr-datagrid>
+
+      <div class="cart-total">
+        <h3>Total: {{ cartTotal | currency }}</h3>
+        <button (click)="isCheckoutModalOpen = true" class="confirm-btn">Buy Now</button>
+      </div>
+    </ng-container>
+  </ng-container>
+  <app-checkout
+    [isOpen]="isCheckoutModalOpen"
+    (closeModal)="isCheckoutModalOpen = false"
+    (orderConfirmed)="onOrderConfirmed()">
+  </app-checkout>
+
+  <ng-template #emptyCart>
+    <div class="empty-cart">
+      <img src="assets/images/no-cart-items.svg" alt="No Cart Items" class="empty-cart-image">
+      <p>Your cart is empty. Browse our products to find something you like.</p>
+      <button (click)="navigateToProducts()" class="go-to-products">Shop Now</button>
+    </div>
+  </ng-template>
+</div>
